@@ -1,7 +1,11 @@
+import os
+
+from dotenv import load_dotenv
 from openai import OpenAI
 
 client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
-MODEL = "llama3.2"
+
+load_dotenv()
 
 
 def main():
@@ -22,7 +26,7 @@ def main():
         messages.append({"role": "user", "content": text})
         try:
             stream = client.chat.completions.create(
-                model=MODEL, messages=messages, stream=True
+                model=os.getenv("MODEL"), messages=messages, stream=True
             )
             reply = ""
             print(f"{language}: ", end="")
